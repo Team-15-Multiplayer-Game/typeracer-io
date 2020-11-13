@@ -102,9 +102,7 @@ export default {
         })
     }
   },
-  components: {
-    OpenRoom
-  },
+  components: { OpenRoom },
   computed: {
     rooms () {
       return this.$store.state.rooms
