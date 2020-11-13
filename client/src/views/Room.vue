@@ -7,7 +7,7 @@
         <div class="p-4 bg-light shadow" style="width: 95%; border-radius: 20px;">
           <h1>List Player</h1>
           <hr>
-          <SidePlayer/>
+          <SidePlayer v-for="(user, i) in users" :key="i" :user="user"/>
         </div>
       </div>
 
@@ -78,7 +78,8 @@ import Canvas from '../components/Canvas'
 export default {
   data () {
     return {
-      room: {}
+      room: {},
+      users: []
     }
   },
   components: {
@@ -100,6 +101,12 @@ export default {
     console.log(from, '<< from')
     console.log(next, '<< next')
     next()
+  },
+  sockets: {
+    userLogin (player) {
+      console.log(player, 'ini player yang join')
+      this.users = player
+    }
   }
 }
 </script>
