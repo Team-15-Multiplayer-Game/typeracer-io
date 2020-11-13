@@ -48,7 +48,7 @@
 import Swal from 'sweetalert2'
 import OpenRoom from '../components/OpenRoom'
 export default {
-  name: 'Landing-Page',
+  name: 'Home',
   data () {
     return {
       username: '',
@@ -111,9 +111,13 @@ export default {
     },
     room () {
       return this.$store.state.room
-    }
+    },
   },
   created () {
+    if (!localStorage.getItem('username')) {
+      this.$router.push({ name: 'Login' })
+    }
   }
 }
+
 </script>
