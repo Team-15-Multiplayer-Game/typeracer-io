@@ -80,6 +80,7 @@
 <script>
 import SidePlayer from '../components/SidePlayer'
 export default {
+  name: 'Room',
   data () {
     return {
       room: {},

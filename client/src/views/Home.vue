@@ -31,10 +31,9 @@
             <button class="btn btn-outline-primary p-3" @click="createRoom"><i class="fas fa-plus"></i> Create Room</button>
           </nav>
 
-          <div class="row">
+          <div class="row" v-for="(room, i) in rooms" :key="i">
             <OpenRoom
-            v-for="(room, i) in rooms"
-            :key="i"
+              :room="room"
             />
           </div>
         </div>
@@ -55,7 +54,8 @@ export default {
       createRoomPayload: {
         name: '',
         private: ''
-      }
+      },
+      rooms: []
     }
   },
   methods: {
@@ -93,7 +93,7 @@ export default {
           this.createRoomPayload.private = result.value
           if (result.isConfirmed) {
             this.$socket.emit('createRoom', this.createRoomPayload)
-            this.$router.push(`/${this.createRoomPayload.name}`)
+            this.$router.push(`/room/${this.createRoomPayload.name}`)
             localStorage.setItem('host', 'true')
           }
         })
@@ -104,16 +104,29 @@ export default {
   },
   components: { OpenRoom },
   computed: {
-    rooms () {
-      return this.$store.state.rooms
-    },
-    room () {
-      return this.$store.state.room
-    }
+    // rooms () {
+    //   return this.$store.state.rooms
+    // },
+    // room () {
+    //   return this.$store.state.room
+    // }
   },
   created () {
     if (!localStorage.getItem('username')) {
       this.$router.push({ name: 'Login' })
+    }
+    this.$socket.on('fetch-rooms', (data) => {
+      this.rooms = data
+    })
+    this.$socket.emit('fetchRooms')
+  },
+  sockets: {
+    roomCreated (data) {
+      this.rooms = data
+    },
+    fetchRooms (data) {
+      console.log('ini fetch')
+      this.rooms = data
     }
   }
 }
