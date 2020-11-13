@@ -109,7 +109,7 @@ export default {
     },
     room () {
       return this.$store.state.room
-    },
+    }
   },
   created () {
     if (!localStorage.getItem('username')) {
